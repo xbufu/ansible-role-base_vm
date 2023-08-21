@@ -1,0 +1,16 @@
+---
+- name: Install vim-plug
+  ansible.builtin.shell: |
+    sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  become: false
+
+- name: Install chezmoi
+  ansible.builtin.shell: |
+    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/bin
+
+- name: Apply dotfiles via chezmoi
+  ansible.builtin.shell: |
+    chezmoi init {{ chezmoi_user }}
+    chezmoi apply -v
+  become: false

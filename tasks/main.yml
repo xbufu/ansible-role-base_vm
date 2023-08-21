@@ -1,0 +1,4 @@
+---
+- name: Wait for cloud-init
+  ansible.builtin.wait_for:
+    path: /var/lib/cloud/instance/boot-finished

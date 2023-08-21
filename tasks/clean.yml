@@ -1,0 +1,81 @@
+---
+- name: "Modifying GRUB."
+  ansible.builtin.shell: |
+    sed -i -e "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\"/" /etc/default/grub
+    update-grub
+  when: ansible_distribution_version == "20.04" or ansible_distribution_version == "22.04"
+
+- name: Get SSH host keys
+  ansible.builtin.find:
+    paths: /etc/ssh
+    patterns: 'ssh_host_*'
+    file_type: file
+  register: ssh_host_keys
+
+- name: Delete SSH host keys
+  ansible.builtin.file:
+    path: '{{ item.path }}'
+    state: absent
+  with_items: '{{ ssh_host_keys.files }}'
+
+- name: Setting SSH keys to regenerate on reboot, if neccessary
+  ansible.builtin.shell: |
+    sudo tee /etc/rc.local << EOF
+    #!/bin/bash
+    test -f /etc/ssh/ssh_host_dsa_key || dpkg-reconfigure openssh-server
+    exit 0
+    EOF
+    sudo chmod +x /etc/rc.local
+
+- name: Clear out machine ID
+  ansible.builtin.copy:
+    content: ''
+    dest: /etc/machine-id
+
+- name: "Cleaning all audit logs."
+  ansible.builtin.shell: |
+    if [ -f /var/log/audit/audit.log ]; then
+    cat /dev/null > /var/log/audit/audit.log
+    fi
+    if [ -f /var/log/wtmp ]; then
+    cat /dev/null > /var/log/wtmp
+    fi
+    if [ -f /var/log/lastlog ]; then
+    cat /dev/null > /var/log/lastlog
+    fi
+
+- name: "Cleaning persistent udev rules."
+  ansible.builtin.shell: |
+    if [ -f /etc/udev/rules.d/70-persistent-net.rules ]; then
+    rm /etc/udev/rules.d/70-persistent-net.rules
+    fi
+
+- name: "Cleaning the /tmp directories"
+  ansible.builtin.shell: |
+    rm -rf /tmp/*
+    rm -rf /var/tmp/*
+
+- name: "Cleaning the shell history."
+  ansible.builtin.shell: |
+    unset HISTFILE
+    history -cw
+    echo > ~/.bash_history
+    rm -fr /root/.bash_history
+
+- name: Remove useless packages from the cache
+  ansible.builtin.apt:
+    autoclean: true
+
+- name: Remove dependencies that are no longer required
+  ansible.builtin.apt:
+    autoremove: true
+
+- name: Clean cache
+  ansible.builtin.apt:
+    clean: true
+
+- name: Flush file system buffers
+  ansible.builtin.shell: sync
+
+- name: Update file system index
+  ansible.builtin.shell: updatedb

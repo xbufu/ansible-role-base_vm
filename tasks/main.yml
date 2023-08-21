@@ -2,3 +2,15 @@
 - name: Wait for cloud-init
   ansible.builtin.wait_for:
     path: /var/lib/cloud/instance/boot-finished
+
+- name: Install packackes
+  ansible.builtin.include_tasks: install-packages.yml
+
+- name: Apply cloud-init config
+  ansible.builtin.include_tasks: cloud-init.yml
+
+- name: Apply dotfiles
+  ansible.builtin.include_tasks: apply-dotfiles.yml
+
+- name: Clean up system for template use
+  ansible.builtin.include_tasks: clean.yml

@@ -1,4 +1,11 @@
 ---
+- name: Grow partition on boot
+  ansible.builtin.package:
+    name: cloud-initramfs-growroot
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Debian"
+
 - name: Prepare cloud-init
   ansible.builtin.file:
     path: '{{ item }}'

@@ -1,13 +1,17 @@
 ---
 galaxy_info:
-  role_name: ubuntu_base_vm
+  role_name: base_vm
   author: xbufu
-  description: Ubuntu base VM role.
+  description: Base VM role.
   company: Bufu-Security
   license: license (BSD, MIT)
   min_ansible_version: "2.1"
   platforms:
     - name: Ubuntu
+      versions:
+        - all
+
+    - name: Debian
       versions:
         - all
 

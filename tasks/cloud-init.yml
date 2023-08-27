@@ -14,19 +14,22 @@
     content: 'datasource_list: [ConfigDrive, NoCloud]'
   when: ansible_facts['virtualization_type'] == "kvm"
 
-- name: Write vSphere cloud-init datasource config
-  ansible.builtin.copy:
-    dest: /etc/cloud/cloud.cfg.d/90_dpkg.cfg
-    content: 'datasource_list: [ VMware, OVF, None ]'
+- name: Configure VMware
   when: ansible_facts['virtualization_type'] == "VMware"
+  block:
+    - name: Write vSphere cloud-init datasource config
+      ansible.builtin.copy:
+        dest: /etc/cloud/cloud.cfg.d/90_dpkg.cfg
+        content: 'datasource_list: [ VMware, OVF, None ]'
 
-- name: Enable VMware customizations
-  ansible.builtin.lineinfile:
-    path: /etc/cloud/cloud.cfg
-    line: 'disable_vmware_customization: false'
-    state: present
-  when: enable_vmware_customizations and ansible_facts['virtualization_type'] == "VMware"
+    - name: Enable VMware customizations
+      ansible.builtin.blockinfile:
+        path: /etc/cloud/cloud.cfg
+        block: |
+          disable_vmware_customization: false
+          datasource:
+            VMware:
+              vmware_cust_file_max_wait: 5
 
-- name: Enable VMware customization scripts
-  ansible.builtin.shell: vmware-toolbox-cmd config set deployPkg enable-custom-scripts true
-  when: ansible_facts['virtualization_type'] == "VMware"
+    - name: Enable VMware customization scripts
+      ansible.builtin.shell: vmware-toolbox-cmd config set deployPkg enable-custom-scripts true

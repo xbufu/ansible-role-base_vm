@@ -2,6 +2,7 @@
 - name: Wait for cloud-init
   ansible.builtin.wait_for:
     path: /var/lib/cloud/instance/boot-finished
+  when: ansible_distribution == "Ubuntu"
 
 - name: Install packackes
   ansible.builtin.include_tasks: install-packages.yml

@@ -42,6 +42,13 @@
     state: present
     update_cache: true
 
+- name: Install Python Full
+  ansible.builtin.package:
+    name: python3-full
+    state: present
+    update_cache: true
+  when: ansible_distribution == "Debian"
+
 - name: Install additional dependencies
   ansible.builtin.pip:
     name: '{{ item }}'
@@ -57,3 +64,4 @@
     - dnspython
     - pyvmomi
     - argcomplete
+  when: ansible_distribution == "Ubuntu"

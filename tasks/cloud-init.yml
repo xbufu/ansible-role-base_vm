@@ -1,11 +1,4 @@
 ---
-- name: Grow partition on boot
-  ansible.builtin.package:
-    name: cloud-initramfs-growroot
-    state: present
-    update_cache: true
-  when: ansible_distribution == "Debian"
-
 - name: Prepare cloud-init
   ansible.builtin.file:
     path: '{{ item }}'
@@ -14,6 +7,12 @@
     - /etc/cloud/cloud.cfg.d/subiquity-disable-cloudinit-networking.cfg
     - /etc/cloud/cloud.cfg.d/99-installer.cfg
     - /etc/netplan/00-installer-config.yaml
+
+- name: Prepare Debian cloud.cfg
+  ansible.builtin.copy:
+    src: debian-cloud.cfg
+    dest: /etc/cloud/cloud.cfg
+  when: ansible_distribution == "Debian"
 
 - name: Write Proxmox cloud-init datasource config
   ansible.builtin.copy:

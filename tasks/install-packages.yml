@@ -32,6 +32,7 @@
       - vim
       - wget
       - whois
+      - xclip
     state: present
 
 - name: Install Python and pip

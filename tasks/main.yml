@@ -7,6 +7,9 @@
 - name: Install packackes
   ansible.builtin.include_tasks: install-packages.yml
 
+- name: Install VM tools
+  ansible.builtin.include_tasks: install-vmtools.yml
+
 - name: Apply cloud-init config
   ansible.builtin.include_tasks: cloud-init.yml
 

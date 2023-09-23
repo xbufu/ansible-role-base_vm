@@ -1,0 +1,16 @@
+- name: Install VM tools
+  ansible.builtin.apt:
+    name:
+      - open-vm-tools
+      - open-vm-tools-desktop
+    state: present
+    update_cache: true
+
+- name: Install KVM tools
+  ansible.builtin.apt:
+    name:
+      - qemu-guest-agent
+      - spice-vdagent
+    state: present
+    update_cache: true
+  when: ansible_facts['virtualization_type'] == "kvm"

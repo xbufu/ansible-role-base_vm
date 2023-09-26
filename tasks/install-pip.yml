@@ -1,0 +1,36 @@
+---
+- name: Make sure Python3 and pip3 are installed
+  ansible.builtin.package:
+    name:
+      - python3-full
+      - python3-pip
+      - pipx
+    state: present
+
+- name: Get users home directory
+  ansible.builtin.command: echo ~{{ ansible_env.SUDO_USER }}
+  register: output
+
+- name: Save user home to variable
+  ansible.builtin.set_fact:
+    user_home: "{{ output.stdout }}"
+
+- name: pipx ensurepath
+  ansible.builtin.shell: pipx ensurepath
+  become: false
+
+- name: pipx completions
+  ansible.builtin.lineinfile:
+    dest: "{{ user_home }}/.bashrc"
+    line: "\n\n#pipx completions\neval \"$(register-python-argcomplete pipx)\"\n"
+    state: present
+    create: true
+    insertafter: EOF
+    mode: '0644'
+  become: false
+
+- name: Reload .bashrc
+  ansible.builtin.shell: source {{ user_home }}/.bashrc
+  become: false
+  args:
+    executable: /bin/bash

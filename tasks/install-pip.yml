@@ -29,6 +29,16 @@
     mode: '0644'
   become: false
 
+- name: pip path
+  ansible.builtin.lineinfile:
+    dest: "{{ user_home }}/.bashrc"
+    line: "\n\n#pip\nexport PATH=$PATH:$HOME/.local/bin\n"
+    state: present
+    create: true
+    insertafter: EOF
+    mode: '0644'
+  become: false
+
 - name: Reload .bashrc
   ansible.builtin.shell: source {{ user_home }}/.bashrc
   become: false

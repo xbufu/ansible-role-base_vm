@@ -16,7 +16,7 @@
       - dialog
       - git
       - jq
-      - mlocate
+      - plocate
       - nano
       - neovim
       - net-tools

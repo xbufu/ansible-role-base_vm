@@ -4,7 +4,7 @@
     name:
       - python3-full
       - python3-pip
-      - pipx
+      # - pipx
     state: present
 
 - name: Get users home directory
@@ -15,19 +15,19 @@
   ansible.builtin.set_fact:
     user_home: "{{ output.stdout }}"
 
-- name: pipx ensurepath
-  ansible.builtin.shell: pipx ensurepath
-  become: false
+# - name: pipx ensurepath
+#   ansible.builtin.shell: pipx ensurepath
+#   become: false
 
-- name: pipx completions
-  ansible.builtin.lineinfile:
-    dest: "{{ user_home }}/.bashrc"
-    line: "\n\n#pipx completions\neval \"$(register-python-argcomplete pipx)\"\n"
-    state: present
-    create: true
-    insertafter: EOF
-    mode: '0644'
-  become: false
+# - name: pipx completions
+#   ansible.builtin.lineinfile:
+#     dest: "{{ user_home }}/.bashrc"
+#     line: "\n\n#pipx completions\neval \"$(register-python-argcomplete pipx)\"\n"
+#     state: present
+#     create: true
+#     insertafter: EOF
+#     mode: '0644'
+#   become: false
 
 - name: pip path
   ansible.builtin.lineinfile:

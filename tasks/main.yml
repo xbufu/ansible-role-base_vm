@@ -5,7 +5,7 @@
   when: ansible_distribution == "Ubuntu"
 
 - name: Install pip & pipx
-  ansible.builtin.include_tasks: install-pip.yml
+  ansible.builtin.include_tasks: install-python.yml
 
 - name: Install packackes
   ansible.builtin.include_tasks: install-packages.yml

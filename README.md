@@ -1,7 +1,7 @@
 Ansible Role: Ubuntu Base VM
 =========
 
-An Ansible role to prepare an Ubuntu Base VM.
+An Ansible role to prepare an base VM template.
 
 Requirements
 ------------

@@ -4,6 +4,10 @@
     path: /var/lib/cloud/instance/boot-finished
   when: ansible_distribution == "Ubuntu"
 
+- name: Remove snap
+  ansible.builtin.include_tasks: remove-snap.yml
+  when: ansible_distribution == "Ubuntu"
+
 - name: Install pip & pipx
   ansible.builtin.include_tasks: install-python.yml
 

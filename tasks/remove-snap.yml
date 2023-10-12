@@ -1,0 +1,30 @@
+---
+- name: Uninstall snaps
+  ansible.builtin.shell: |
+    for snap in $(snap list | grep -v Publisher | cut -d ' ' -f 1); do snap remove $snap; done
+  loop:
+    - 1
+    - 2
+
+- name: Unmount directories
+  ansible.builtin.shell: |
+    umount /var/snap
+  ignore_errors: true
+
+- name: Disable snapd
+  ansible.builtin.systemd_service:
+    name: snapd
+    state: stopped
+    masked: true
+    enabled: false
+    force: true
+
+- name: Remove directories
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: absent
+  loop:
+    - ~/snap
+    - /snap
+    - /var/snap
+    - /var/lib/snapd

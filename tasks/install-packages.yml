@@ -9,6 +9,7 @@
   ansible.builtin.package:
     name:
       - acl
+      - apache2-utils
       - bash-completion
       - ca-certificates
       - cifs-utils

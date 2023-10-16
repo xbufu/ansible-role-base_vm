@@ -2,6 +2,7 @@
 - name: Uninstall snaps
   ansible.builtin.shell: |
     for snap in $(snap list | grep -v Publisher | cut -d ' ' -f 1); do snap remove $snap; done
+  ignore_errors: true
   loop:
     - 1
     - 2

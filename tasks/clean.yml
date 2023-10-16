@@ -79,3 +79,7 @@
 
 - name: Update file system index
   ansible.builtin.shell: updatedb
+
+- name: Prepare cloud-init
+  ansible.builtin.shell: cloud-init clean
+  ignore_errors: true

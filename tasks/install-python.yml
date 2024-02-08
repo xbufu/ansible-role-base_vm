@@ -8,7 +8,7 @@
     state: present
 
 - name: Get users home directory
-  ansible.builtin.command: echo ~{{ ansible_env.SUDO_USER }}
+  ansible.builtin.command: echo ~{{ ansible_env.SUDO_USER | default("root") }}
   register: output
 
 - name: Save user home to variable

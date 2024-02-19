@@ -14,6 +14,12 @@
     dest: /etc/cloud/cloud.cfg
   when: ansible_distribution == "Debian"
 
+- name: Enable root login
+  ansible.builtin.lineinfile:
+    path: /etc/cloud/cloud.cfg
+    regexp: '^disable_root: true$'
+    line: 'disable_root: false'
+
 - name: Write Proxmox cloud-init datasource config
   ansible.builtin.copy:
     dest: /etc/cloud/cloud.cfg.d/90_dpkg.cfg

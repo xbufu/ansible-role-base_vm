@@ -85,5 +85,5 @@
   ansible.builtin.shell: updatedb
 
 - name: Prepare cloud-init
-  ansible.builtin.shell: cloud-init clean
+  ansible.builtin.shell: cloud-init clean --logs
   ignore_errors: true

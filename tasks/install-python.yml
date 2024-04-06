@@ -15,6 +15,11 @@
   ansible.builtin.set_fact:
     user_home: "{{ output.stdout }}"
 
+- name: Enable old system packages
+  ansible.builtin.shell: |
+    python3 -m pip config set global.break-system-packages true
+  become: false
+
 # - name: pipx ensurepath
 #   ansible.builtin.shell: pipx ensurepath
 #   become: false

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+proxies=(
+{% for address in apt_proxy_addresses %}
+{{ address }}
+{% endfor %}
+)
+
+for proxy in "${proxies[@]}"; do
+    if nc -w1 -z ${proxy/:/ }; then
+        echo "http://$proxy"
+        exit
+    fi
+done
+
+echo "DIRECT"

@@ -1,4 +1,11 @@
 ---
+- name: Apply bashrc
+  ansible.builtin.copy:
+    src: bashrc
+    dest: '{{ user_home }}/.bashrc'
+    mode: '0644'
+  become: false
+
 - name: Install vim-plug
   ansible.builtin.shell: |
     sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \

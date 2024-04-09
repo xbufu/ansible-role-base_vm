@@ -4,15 +4,13 @@
     path: /var/lib/cloud/instance/boot-finished
   when: ansible_distribution == "Ubuntu"
 
-- name: Remove snap
-  ansible.builtin.include_tasks: remove-snap.yml
-  when: ansible_distribution == "Ubuntu"
+- name: Get users home directory
+  ansible.builtin.command: echo ~{{ ansible_env.SUDO_USER | default("root") }}
+  register: output
 
-- name: Install pip & pipx
-  ansible.builtin.include_tasks: install-python.yml
-
-- name: Install packackes
-  ansible.builtin.include_tasks: install-packages.yml
+- name: Save user home to variable
+  ansible.builtin.set_fact:
+    user_home: "{{ output.stdout }}"
 
 - name: Install VM tools
   ansible.builtin.include_tasks: install-vmtools.yml
@@ -20,8 +18,18 @@
 - name: Apply cloud-init config
   ansible.builtin.include_tasks: cloud-init.yml
 
+- name: Install packackes
+  ansible.builtin.include_tasks: install-packages.yml
+
 - name: Apply dotfiles
   ansible.builtin.include_tasks: apply-dotfiles.yml
+
+- name: Install pip & pipx
+  ansible.builtin.include_tasks: install-python.yml
+
+- name: Remove snap
+  ansible.builtin.include_tasks: remove-snap.yml
+  when: ansible_distribution == "Ubuntu"
 
 - name: Clean up system for template use
   ansible.builtin.include_tasks: clean.yml

@@ -37,5 +37,5 @@ pip_packages:
 chezmoi_user: xbufu
 enable_vmware_customizations: true
 enable_apt_proxy: true
-apt_proxy_addresses: 
+apt_proxy_addresses:
   - 192.168.60.4:3142

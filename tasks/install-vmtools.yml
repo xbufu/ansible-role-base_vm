@@ -1,3 +1,4 @@
+---
 - name: Install VM tools
   ansible.builtin.apt:
     name:

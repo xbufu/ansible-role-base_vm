@@ -12,6 +12,10 @@
   ansible.builtin.set_fact:
     user_home: "{{ output.stdout }}"
 
+- name: Set up apt proxy
+  ansible.builtin.include_tasks: apt-proxy.yml
+  when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+
 - name: Install VM tools
   ansible.builtin.include_tasks: install-vmtools.yml
 

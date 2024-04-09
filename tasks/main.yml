@@ -14,7 +14,7 @@
 
 - name: Set up apt proxy
   ansible.builtin.include_tasks: apt-proxy.yml
-  when: ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+  when: (ansible_distribution == "Ubuntu" or ansible_distribution == "Debian") and enable_apt_proxy
 
 - name: Install VM tools
   ansible.builtin.include_tasks: install-vmtools.yml

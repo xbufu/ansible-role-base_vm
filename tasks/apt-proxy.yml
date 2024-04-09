@@ -1,14 +1,21 @@
 ---
-- name: Create proxy checker script
-  ansible.builtin.copy:
-    src: apt-proxy-checker
-    dest: /usr/local/bin/apt-proxy-checker
-    mode: '0775'
+# - name: Create proxy checker script
+#   ansible.builtin.copy:
+#     src: apt-proxy-checker
+#     dest: /usr/local/bin/apt-proxy-checker
+#     mode: '0775'
 
-- name: Create apt directive
+# - name: Create apt directive
+#   ansible.builtin.copy:
+#     src: 99proxy
+#     dest: /etc/apt/apt.conf.d/99proxy
+#     mode: '0664'
+
+- name: Create proxy configuration
   ansible.builtin.copy:
-    src: 99proxy
-    dest: /etc/apt/apt.conf.d/99proxy
+    dest: /etc/apt/apt.conf.d/00aptproxy
+    content: |
+      Acquire::http::Proxy "{{ apt_proxy_address }}";
     mode: '0664'
 
 - name: Update apt

@@ -28,11 +28,11 @@
 - name: Apply dotfiles
   ansible.builtin.include_tasks: apply-dotfiles.yml
 
-- name: Configure git
-  ansible.builtin.include_tasks: git.yml
-
 - name: Install pip & pipx
   ansible.builtin.include_tasks: install-python.yml
+
+- name: Configure git
+  ansible.builtin.include_tasks: git.yml
 
 - name: Remove snap
   ansible.builtin.include_tasks: remove-snap.yml

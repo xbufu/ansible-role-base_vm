@@ -41,3 +41,12 @@
   become: false
   args:
     executable: /bin/bash
+
+- name: Install pip packages
+  ansible.builtin.pip:
+    name: '{{ item }}'
+    extra_args: --user
+  loop:
+    - paramiko
+    - netaddr
+    - requests

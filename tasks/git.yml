@@ -25,9 +25,10 @@
 
 - name: Add github SSH host
   community.general.ssh_config:
+    user: '{{ ansible_user }}'
+    state: present
     host: github.com
     hostname: github.com
-    user: git
+    remote_user: git
     identity_file: ~/.ssh/git_ed25519
     identities_only: true
-    state: present

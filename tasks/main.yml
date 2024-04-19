@@ -19,9 +19,6 @@
 - name: Install VM tools
   ansible.builtin.include_tasks: install-vmtools.yml
 
-- name: Apply cloud-init config
-  ansible.builtin.include_tasks: cloud-init.yml
-
 - name: Install packackes
   ansible.builtin.include_tasks: install-packages.yml
 
@@ -38,5 +35,5 @@
   ansible.builtin.include_tasks: remove-snap.yml
   when: ansible_distribution == "Ubuntu"
 
-- name: Clean up system for template use
+- name: Clean up system
   ansible.builtin.include_tasks: clean.yml

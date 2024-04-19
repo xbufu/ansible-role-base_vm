@@ -23,6 +23,12 @@
     scope: global
     value: nano
 
+- name: Set default branch
+  community.general.git_config:
+    name: init.defaultBranch
+    scope: global
+    value: main
+
 - name: Add github SSH host
   community.general.ssh_config:
     user: '{{ ansible_user }}'

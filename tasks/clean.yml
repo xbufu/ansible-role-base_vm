@@ -1,14 +1,21 @@
 ---
 - name: Disable IPv6
-  ansible.builtin.shell: |
-    sysctl net.ipv6.conf.all.disable_ipv6=1
+  ansible.builtin.lineinfile:
+    path: /etc/sysctl.conf
+    search_string: 'net.ipv6.conf.all.disable_ipv6'
+    line: net.ipv6.conf.all.disable_ipv6=1
 
-- name: "Modifying GRUB."
+- name: Increase inotify file watch limit for VS Code
+  ansible.builtin.lineinfile:
+    path: /etc/sysctl.conf
+    search_string: 'fs.inotify.max_user_watches'
+    line: fs.inotify.max_user_watches=524288
+
+- name: "Reset Grub parameters"
   ansible.builtin.shell: |
     sed -i -e "s/GRUB_CMDLINE_LINUX_DEFAULT=\"\(.*\)\"/GRUB_CMDLINE_LINUX_DEFAULT=\"\"/" /etc/default/grub
     update-grub
-  when: ansible_distribution_version == "20.04" or ansible_distribution_version == "22.04"
-
+  when: (ansible_distribution == "Ubuntu" and (ansible_distribution_version == "20.04" or ansible_distribution_version == "22.04")) or ansible_distribution == "Debian"
 
 - name: Remove useless packages from the cache
   ansible.builtin.apt:

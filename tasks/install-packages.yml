@@ -16,6 +16,7 @@
       - curl
       - dialog
       - git
+      - iperf3
       - jq
       - plocate
       - nano

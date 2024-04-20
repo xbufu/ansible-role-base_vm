@@ -4,30 +4,35 @@
     name: user.name
     scope: global
     value: '{{ ansible_user }}'
+  become: false
 
 - name: Set email
   community.general.git_config:
     name: user.email
     scope: global
     value: '{{ ansible_user }}@{{ ansible_fqdn }}'
+  become: false
 
 - name: Set rebase
   community.general.git_config:
     name: pull.rebase
     scope: global
     value: false
+  become: false
 
 - name: Set editor
   community.general.git_config:
     name: core.editor
     scope: global
     value: nano
+  become: false
 
 - name: Set default branch
   community.general.git_config:
     name: init.defaultBranch
     scope: global
     value: main
+  become: false
 
 - name: Add github SSH host
   community.general.ssh_config:
@@ -38,3 +43,4 @@
     remote_user: git
     identity_file: ~/.ssh/git_ed25519
     identities_only: true
+  become: false

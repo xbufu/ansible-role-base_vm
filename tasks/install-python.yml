@@ -46,6 +46,7 @@
   ansible.builtin.pip:
     name: '{{ item }}'
     extra_args: --user
+  become: false
   loop:
     - paramiko
     - netaddr

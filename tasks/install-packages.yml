@@ -17,6 +17,7 @@
       - dialog
       - git
       - iperf3
+      - iptables
       - jq
       - plocate
       - nano

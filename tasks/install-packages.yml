@@ -28,6 +28,7 @@
       - plocate
       - python3
       - python3-pip
+      - rsync
       - screen
       - smbclient
       - tmux

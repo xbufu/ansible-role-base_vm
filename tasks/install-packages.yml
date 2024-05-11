@@ -18,6 +18,7 @@
       - git
       - iperf3
       - iptables
+      - iptables-persistent
       - jq
       - plocate
       - nano

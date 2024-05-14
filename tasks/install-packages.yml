@@ -34,6 +34,7 @@
       - smbclient
       - tmux
       - tree
+      - unattended-upgrades
       - unzip
       - vim
       - wget

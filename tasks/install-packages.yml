@@ -36,6 +36,7 @@
       - tmux
       - tree
       - unattended-upgrades
+      - uuid-runtime
       - unzip
       - vim
       - wget

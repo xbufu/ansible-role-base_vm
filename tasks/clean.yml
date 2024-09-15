@@ -4,6 +4,7 @@
     path: /etc/sysctl.conf
     search_string: 'net.ipv6.conf.all.disable_ipv6'
     line: net.ipv6.conf.all.disable_ipv6=1
+    create: true
 
 - name: Increase inotify file watch limit for VS Code
   ansible.builtin.lineinfile:

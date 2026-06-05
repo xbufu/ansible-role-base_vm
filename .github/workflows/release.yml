@@ -20,9 +20,10 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    if: github.server_url == 'https://github.com'
     steps:
       - name: Check out the codebase.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: 'xbufu.base_vm'
 
@@ -41,9 +42,12 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    if: github.server_url == 'https://github.com'
+    permissions:
+      contents: write
     steps:
       - name: Check out the codebase.
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           path: 'xbufu.base_vm'
 
@@ -54,7 +58,7 @@ jobs:
           tag: latest
           allowUpdates: true
           makeLatest: true
-          token: ${{ SECRETS.RELEASE_TOKEN }}
+          token: ${{ github.token }}
 
       - name: Set up Python 3.
         uses: actions/setup-python@v5
@@ -65,6 +69,7 @@ jobs:
         run: pip3 install ansible-core
 
       - name: Delete previous role release.
+        continue-on-error: true
         run: >-
           ansible-galaxy role delete --api-key ${{ secrets.GALAXY_API_KEY }}
           $(echo ${{ github.repository }} | cut -d/ -f1) $(echo ${{ github.repository }} | cut -d/ -f2)

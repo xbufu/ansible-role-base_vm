@@ -10,7 +10,7 @@
   community.general.git_config:
     name: user.email
     scope: global
-    value: '{{ ansible_user }}@{{ ansible_fqdn }}'
+    value: '{{ ansible_user }}@{{ ansible_facts["fqdn"] }}'
   become: false
 
 - name: Set rebase

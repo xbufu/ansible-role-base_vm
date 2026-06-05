@@ -19,6 +19,13 @@
 - name: Install VM tools
   ansible.builtin.include_tasks: install-vmtools.yml
 
+- name: Disable systemd-networkd-wait-online
+  ansible.builtin.systemd:
+    name: systemd-networkd-wait-online
+    enabled: false
+    masked: true
+  when: ansible_facts["distribution"] == "Ubuntu"
+
 - name: Configure VirtIO multiqueue
   ansible.builtin.include_tasks: configure-multiqueue.yml
   when: ansible_facts['virtualization_type'] == "kvm"

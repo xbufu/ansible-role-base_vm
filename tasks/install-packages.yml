@@ -15,6 +15,7 @@
       - cifs-utils
       - curl
       - dialog
+      - ethtool
       - git
       - iperf3
       - iptables

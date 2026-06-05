@@ -19,6 +19,10 @@
 - name: Install VM tools
   ansible.builtin.include_tasks: install-vmtools.yml
 
+- name: Configure VirtIO multiqueue
+  ansible.builtin.include_tasks: configure-multiqueue.yml
+  when: ansible_facts['virtualization_type'] == "kvm"
+
 - name: Install packackes
   ansible.builtin.include_tasks: install-packages.yml
 

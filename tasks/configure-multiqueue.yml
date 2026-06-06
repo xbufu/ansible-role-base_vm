@@ -13,3 +13,10 @@
     enabled: true
     state: started
     daemon_reload: true
+  ignore_errors: true
+  register: virtio_multiqueue_result
+
+- name: Print virtio-multiqueue service status on failure
+  ansible.builtin.command: journalctl -xeu virtio-multiqueue.service --no-pager
+  when: virtio_multiqueue_result is failed
+  changed_when: false

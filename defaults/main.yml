@@ -10,6 +10,7 @@ base_packages:
   - jq
   - mlocate
   - nano
+  - ncdu
   - neovim
   - net-tools
   - nfs-common

@@ -4,11 +4,23 @@
     name: chrony
     state: present
 
+- name: Check if chrony sources directory exists
+  ansible.builtin.stat:
+    path: /etc/chrony/sources.d
+  register: chrony_sources_dir
+
+- name: Check if Ubuntu NTS pools sources file exists
+  ansible.builtin.stat:
+    path: /etc/chrony/sources.d/ubuntu-ntp-pools.sources
+  register: ubuntu_ntp_pools_file
+  when: chrony_sources_dir.stat.exists
+
 - name: Disable Ubuntu NTS pools sources file
   ansible.builtin.command:
     cmd: mv /etc/chrony/sources.d/ubuntu-ntp-pools.sources
             /etc/chrony/sources.d/ubuntu-ntp-pools.sources.disabled
     creates: /etc/chrony/sources.d/ubuntu-ntp-pools.sources.disabled
+  when: chrony_sources_dir.stat.exists and (ubuntu_ntp_pools_file.stat.exists | default(false))
 
 - name: Deploy local NTP sources file
   ansible.builtin.copy:

@@ -12,10 +12,6 @@
   ansible.builtin.set_fact:
     user_home: "{{ output.stdout }}"
 
-- name: Set up apt proxy
-  ansible.builtin.include_tasks: apt-proxy.yml
-  when: (ansible_facts["distribution"] == "Ubuntu" or ansible_facts["distribution"] == "Debian" or ansible_facts["distribution"] == "Kali") and enable_apt_proxy
-
 - name: Install VM tools
   ansible.builtin.include_tasks: install-vmtools.yml
 

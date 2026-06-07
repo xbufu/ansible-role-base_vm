@@ -38,6 +38,3 @@ pip_packages:
 inotify_max_user_watches: 524288
 chezmoi_user: xbufu
 enable_vmware_customizations: true
-enable_apt_proxy: true
-apt_proxy_addresses:
-  - 192.168.60.4:3142

@@ -42,6 +42,10 @@
   ansible.builtin.include_tasks: remove-snap.yml
   when: ansible_facts["distribution"] == "Ubuntu"
 
+- name: Configure NTP
+  ansible.builtin.include_tasks: configure-ntp.yml
+  when: ansible_facts["distribution"] == "Ubuntu"
+
 - name: Configure inotify watches
   ansible.builtin.include_tasks: configure-inotify.yml
 

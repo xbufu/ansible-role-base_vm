@@ -36,5 +36,8 @@ pip_packages:
   - pyvmomi
   - argcomplete
 inotify_max_user_watches: 524288
+ntp_servers:
+  - 192.168.10.19
+  - 192.168.10.20
 chezmoi_user: xbufu
 enable_vmware_customizations: true

@@ -1,0 +1,35 @@
+---
+- name: Install chrony
+  ansible.builtin.apt:
+    name: chrony
+    state: present
+
+- name: Disable Ubuntu NTS pools sources file
+  ansible.builtin.command:
+    cmd: mv /etc/chrony/sources.d/ubuntu-ntp-pools.sources
+            /etc/chrony/sources.d/ubuntu-ntp-pools.sources.disabled
+    creates: /etc/chrony/sources.d/ubuntu-ntp-pools.sources.disabled
+
+- name: Deploy local NTP sources file
+  ansible.builtin.copy:
+    dest: /etc/chrony/sources.d/local-ntp.sources
+    content: |
+      # Local homelab NTP servers — preferred, no NTS
+      {% for server in ntp_servers %}
+      server {{ server }} iburst prefer
+      {% endfor %}
+
+      # Public fallback — only used if both local servers are unreachable
+      pool ntp.ubuntu.com        iburst maxsources 2
+      pool 0.ubuntu.pool.ntp.org iburst maxsources 1
+      pool 2.ubuntu.pool.ntp.org iburst maxsources 1
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload chrony sources
+
+- name: Ensure chrony is enabled and running
+  ansible.builtin.systemd:
+    name: chrony
+    enabled: true
+    state: started

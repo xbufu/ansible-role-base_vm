@@ -12,5 +12,5 @@
 - name: Apply dotfiles via chezmoi
   ansible.builtin.shell: |
     chezmoi init {{ chezmoi_user }}
-    chezmoi apply -v
+    chezmoi apply -v --force
   become: false

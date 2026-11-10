@@ -4,7 +4,7 @@
     name:
       - python3-full
       - python3-pip
-      # - pipx
+      - pipx
       - python3-setuptools
       - python3-packaging
     state: present
@@ -13,20 +13,6 @@
   ansible.builtin.shell: |
     python3 -m pip config set global.break-system-packages true
   become: false
-
-# - name: pipx ensurepath
-#   ansible.builtin.shell: pipx ensurepath
-#   become: false
-
-# - name: pipx completions
-#   ansible.builtin.lineinfile:
-#     dest: "{{ user_home }}/.bashrc"
-#     line: "\n\n#pipx completions\neval \"$(register-python-argcomplete pipx)\"\n"
-#     state: present
-#     create: true
-#     insertafter: EOF
-#     mode: '0644'
-#   become: false
 
 - name: Install pip packages
   ansible.builtin.pip:
